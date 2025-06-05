@@ -1,0 +1,328 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+*{
+    font-family: "Montserrat", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.h{
+    color: blue;
+}
+.carousel {
+    width: 100%; /* Ou une largeur fixe, par exemple 800px */
+    height: 500px; /* Hauteur fixe pour le carrousel */
+    overflow: hidden; /* Cache tout ce qui dépasse */
+    border-radius: 20px ;
+}
+.carousel-item img {
+    width: 100%; 
+    height: 500px; 
+    object-fit: cover; 
+    transition: none !important;
+  }
+#nav {
+    background: linear-gradient(to bottom, #87CEFA, #90EE90); /* Bleu clair vers vert clair */
+    padding: 15px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+#nav a {
+    color: #004d00; /* Vert foncé pour un bon contraste */
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 10px 15px;
+    transition: 0.3s;
+}
+
+#nav a:hover {
+    background: rgba(255, 255, 255, 0.4); /* Effet lumineux au survol */
+    border-radius: 5px;
+}
+
+
+.LesIcons1{
+    display: flex ;
+    justify-content: space-between;
+}
+.LesIcons2{
+    display: flex ;
+    justify-content: space-between;
+    justify-content: space-around;
+}
+#icon1{
+    margin-right: 20px ;
+}
+#recherche{
+    width: 180px ;
+}
+#plastic{
+     
+    /*background: linear-gradient(145deg, rgba(2, 130, 77, 0.2), rgba(0, 123, 255, 0.05));
+    backdrop-filter: blur(10px);
+   */
+   background-image: url(../photos/les\ cards/telechargement2.jpg)  ;
+   background-repeat:   no-repeat   ;
+   background-size: cover ;
+    /*
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    */
+    padding: 2% ;
+    margin: 2px ;
+    margin-bottom: 5% ;
+    opacity: 5;
+}
+.img-fluid{
+    width: 200px ;
+    
+}
+
+#card-blue-bg {
+    
+    background: rgba(255, 255, 255, 0.5);/* Bleu Bootstrap */
+    color : black; /* Texte en blanc pour contraster */
+    border: none;
+    border-radius: 30px ;
+    opacity: 0,8 ;
+}
+#fixed-size-img {
+    width: 130px;
+    height: 100px;
+    object-fit: cover; /* Ajustez selon vos besoins */
+}
+/* Style pour les cercles */
+.circle {
+    width: 80px; /* Taille du cercle */
+    height: 80px; /* Taille du cercle */
+    background-color:rgba(18, 169, 98, 0.4); /* Couleur de fond du cercle */
+    border-radius: 50%; /* Rend le div circulaire */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto; /* Centre le cercle */
+}
+
+/* Style pour les numéros dans les cercles */
+
+/* Conteneur du titre flottant */
+.floating-title-container {
+    position: relative;
+    margin-bottom: 100px; /* Ajustez selon vos besoins */
+}
+
+/* Cercle pour le titre */
+.floating-circle {
+    width: 200px; /* Taille du cercle */
+    height: 130px; /* Taille du cercle */
+    background-color: rgba(18, 169, 98, 0.4); /* Couleur du cercle */
+    border-radius: 50%; /* Rend le cercle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -130px; /* Déplace le cercle vers le haut */
+    left: 50%; /* Centre le cercle horizontalement */
+    transform: translateX(-50%); /* Centre le cercle parfaitement */
+    z-index: 1; /* Place le cercle au-dessus du contenu */
+}
+
+/* Titre flottant */
+.floating-title {
+    color: black; /* Couleur du texte */
+    font-size: 1.5rem; /* Taille du texte */
+    /* Texte en gras */
+    margin: 5;
+    position: relative;
+    z-index: 2; /* Place le texte au-dessus du cercle */
+}
+
+/* Style pour les cercles des étapes */
+.circle {
+    width: 80px; /* Taille du cercle */
+    height: 80px; /* Taille du cercle */
+    background-color: rgba(18, 169, 98, 0.4); /* Couleur de fond du cercle */
+    border-radius: 50%; /* Rend le div circulaire */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto; /* Centre le cercle */
+}
+/*page inscription*/
+#bbodyy {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    min-height: 80vh ;
+    background: url(../photos/autrePhoto/a.jpg) no-repeat;
+background-size: cover;
+background-position: center;
+opacity: 4;
+border-radius: 10px ;
+
+}
+
+.wrapper{
+    width: 420px;
+    background: transparent;
+    border: 6px solid rgb(255, 255, 255, .2);
+    color: #fff;
+    border-radius: 20px  ;
+    padding: 30px 40px ;
+    backdrop-filter: blur(20px );
+    
+}
+.wrapper h1{
+    font-size: 36px ;
+text-align: center;
+} 
+.wrapper .input-box {
+    width: 100% ;
+    height: 50px ;
+    margin: 30px 0 ;
+position: relative ;
+
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgb(255, 255, 255, .2);
+    border-radius: 40px ;
+    font-size: 16px ;
+    color: #fff;
+    padding: 20px 45px 20px 20px ;
+}
+.input-box input::placeholder{
+    color: #fff;
+}
+.input-box i {
+    position: absolute ;
+    right: 20px ;
+    top: 30% ; 
+    transform: translate(-50%);
+    font-size: 20px ;
+}
+.rememeber-forget{
+    display: flex ;
+    justify-content: space-between;
+    font-size: 14.5px ;
+    margin: -15px 0px  15px  ;
+}
+.rememeber-forget label input {
+    accent-color: #fff ;
+    margin-right: 3px ;
+}
+.rememeber-forget a {
+    color: #fff;
+    text-decoration: none;
+}
+.rememeber-forget a:hover{
+    text-decoration: underline;
+}
+.btn {
+    width: 90% ;
+    margin-left: 5%;
+    height: 45px ;
+    background: #fff;
+    border: none ;
+    outline: none;
+    border-radius: 40px ;
+    box-shadow: 0 0 10px rgb(255, 255, 255, .1);
+cursor: pointer;
+font-size: 16px ;
+color: #333;
+font-weight: 600px ;
+}
+.Register-link{
+    font-size: 14.5px ;
+    text-align: center ;
+    margin: 20px 0 15px ;
+}
+.Register-link p a {
+    color: #fff;
+    text-decoration: none ;
+    font-weight: 600px  ;
+}
+.Register-link p a:hover{
+    text-decoration: underline;
+}
+
+/*page enregister un echantillon*/ 
+.containerEchan {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    background-image: url(../photos/autrePhoto/baground.jpg);
+    background-repeat: no-repeat;
+    background-size: cover ;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="date"],
+select,
+textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+#tests {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #fff;
+}
+
+#tests option {
+    padding: 8px;
+}

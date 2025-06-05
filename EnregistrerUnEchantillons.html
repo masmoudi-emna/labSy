@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enregistrer un échantillon</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="../bootstrap-5.3.3-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        
+        .btn-primary {
+            background-color: #0d6efd;
+            border: none;
+            padding: 10px 20px;
+            font-weight: 500;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+        }
+        
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .animate-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-primary-subtle text-black p-3" id="nav">
+        <div class="container" id="baground">
+            <div class="LesIcons1 d-flex justify-content-between align-items-center flex-wrap">
+                <div><h1 class="fw-bolder logo-pulse">LabSys</h1></div>
+                <div class="LesIcons2 d-flex gap-3 flex-wrap">
+                    <!-- Options pour utilisateur non connecté -->
+                    <div id="guest-options">
+                        <h3 class="fw-bolder animate__animated animate__fadeIn" id="icon1">
+                            <a href="seConnecter.html"><i class="fa-solid fa-user"></i> <span class="d-none d-sm-inline">se connecter</span></a>
+                        </h3>
+                        <h3 class="fw-bolder animate__animated animate__fadeIn" id="icon1">
+                            <a href="inscription.html"><i class="fa-solid fa-user-plus"></i> <span class="d-none d-sm-inline">s'inscrire</span></a>
+                        </h3>
+                    </div>
+                    <!-- Options pour utilisateur connecté -->
+                    <div id="user-options" style="display: none;">
+                        <h3 class="fw-bolder animate__animated animate__fadeIn">
+                            <a href="seDeconnecter.php"><i class="fa-solid fa-right-from-bracket"></i> <span class="d-none d-sm-inline">se déconnecter</span></a>
+                        </h3>
+                        <h3 class="fw-bolder animate__animated animate__fadeIn">
+                            <a href="parametres.html"><i class="fa-solid fa-gear"></i> <span class="d-none d-sm-inline">Mes paramètres</span></a>
+                        </h3>
+                    </div>
+                    <div id="user-info-container" class="d-none animate__animated animate__fadeIn"></div>
+                </div>
+            </div>
+            
+            <nav class="navbar navbar-expand-lg p-3">
+                <div class="container-fluid">
+                    <a class="navbar-brand fw-semibold" href="index.html"> <i class="fa-solid fa-house"></i> Accueil</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold active" href="EnregistrerUnEchantillons.html">
+                                    <i class="fas fa-vial"></i> Gestion des Échantillons
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold" href="MesEchantillons.html"> <i class="fas fa-flask"></i> Mes Échantillons</a>
+                            </li>
+                        </ul>
+                        <form class="d-flex" role="search">
+                            <input class="form-control me-2 fw-semibold" type="search" placeholder="Search" aria-label="Search">
+                            <button id="recherche" class="btn btn-outline-success fw-semibold" type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <section>
+        <div class="container mt-5 mb-5">
+            <div class="containerEchan">
+                <h1 class="mb-4 animate-on-scroll">
+                    <i class="fas fa-vial text-primary me-2"></i>Enregistrer un Nouvel Échantillon
+                </h1>
+                <p class="lead mb-4 animate-on-scroll">Remplissez le formulaire pour enregistrer un nouvel échantillon dans la base de données</p>
+                
+                <div class="form-container card p-4 shadow-sm animate-on-scroll">
+                    <div id="formResult" class="alert" style="display: none;"></div>
+                    
+                    <form id="sampleForm">
+                        <input type="hidden" name="user_id" id="userId" value="1">
+                        
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3">
+                                <label for="sampleId" class="form-label fw-bold">ID de l'échantillon</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-hashtag"></i></span>
+                                    <input type="text" class="form-control" id="sampleId" name="sample_id" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="patientName" class="form-label fw-bold">Nom du Patient</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    <input type="text" class="form-control" id="patientName" name="nom_patient" required>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3">
+                                <label for="collectionDate" class="form-label fw-bold">Date d'enregistrement</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                    <input type="date" class="form-control" id="collectionDate" name="date_enregistrement" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="sampleType" class="form-label fw-bold">Type d'Échantillon</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-droplet"></i></span>
+                                    <select class="form-select" id="sampleType" name="echantillon_type" required>
+                                        <option value="" selected disabled>Sélectionner un type...</option>
+                                        <option value="sang">Sang</option>
+                                        <option value="urine">Urine</option>
+                                        <option value="salive">Salive</option>
+                                        <option value="tissus">Tissu</option>
+                                        <option value="moelle">Moelle osseuse</option>
+                                        <option value="liquide">Liquide céphalorachidien</option>
+                                        <option value="selles">Selles</option>
+                                        <option value="autre">Autre</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3">
+                                <label for="testType" class="form-label fw-bold">Type de Test</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-microscope"></i></span>
+                                    <input type="text" class="form-control" id="testType" name="test_type" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="quantite" class="form-label fw-bold">Quantité</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-ruler-combined"></i></span>
+                                    <input type="number" class="form-control" id="quantite" name="quantite" step="0.01" min="0.01" required>
+                                    <span class="input-group-text">mL</span>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3">
+                                <label for="sampleStatus" class="form-label fw-bold">Statut</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-flag"></i></span>
+                                    <select class="form-select" id="sampleStatus" name="statut" required>
+                                        <option value="en_attente">En attente d'analyse</option>
+                                        <option value="en_cours">Analyse en cours</option>
+                                        <option value="termine">Analyse terminée</option>
+                                        <option value="rejete">Rejeté</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <button type="reset" class="btn btn-outline-secondary me-md-2">
+                                <i class="fas fa-redo"></i> Réinitialiser
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Enregistrer l'échantillon
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    
+
+    <!-- Footer -->
+    <footer class="text-center text-lg-start bg-body-tertiary text-muted">
+        <!-- Section: Social media -->
+        <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+          <!-- Left -->
+          <div class="me-5 d-none d-lg-block">
+            <span>Merci pour votre visite! </span>
+          </div>
+          <!-- Left -->
+      
+          <!-- Right -->
+          <div>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-google"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+          <!-- Right -->
+        </section>
+        <!-- Section: Social media -->
+      
+        <!-- Section: Links  -->
+        <section class="">
+          <div class="container text-center text-md-start mt-5">
+            <!-- Grid row -->
+            <div class="row mt-3">
+              <!-- Grid column -->
+              <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                <!-- Content -->
+                <h6 class="text-uppercase fw-bold mb-4">
+                  <i class="fas fa-gem me-3"></i>LabSys
+                </h6>
+                <p>
+                    LabSys est une solution web complète et sécurisée destinée aux laboratoires d'analyses médicales 
+                    facilitant l'accès aux analyses concernés par des échantillons.
+                </p>
+              </div>
+              <!-- Grid column -->
+      
+              <!-- Grid column -->
+              <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                <!-- Links -->
+                <h6 class="text-uppercase fw-bold mb-4">
+                    ACCÈS RAPIDE
+                </h6>
+                <p>
+                  <a href="#!" class="text-reset">Espace Patients</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-reset">Espace Professionnels</a>
+                </p>
+                
+                <p>
+                  <a href="#!" class="text-reset">Recrutement</a>
+                </p>
+              </div>
+              <!-- Grid column -->
+      
+              <!-- Grid column -->
+              <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                <!-- Links -->
+                <h6 class="text-uppercase fw-bold mb-4">
+                    Services
+                </h6>
+                <p>
+                  <a href="#!" class="text-reset">Paramétres</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-reset">S'inscrire </a>
+                </p>
+                <p>
+                  <a href="#!" class="text-reset">Se connecter</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-reset">Aide </a>
+                </p>
+              </div>
+              <!-- Grid column -->
+      
+              <!-- Grid column -->
+              <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                <!-- Links -->
+                <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+                <p><i class="fas fa-home me-3"></i> TUNIS, NY 10012, </p>
+                <p>
+                  <i class="fas fa-envelope me-3"></i>
+                  infoBiologie@Labsys.com
+                </p>
+                <p><i class="fas fa-phone me-3"></i> + 01 01 01 01 01</p>
+                <p><i class="fas fa-print me-3"></i> + 01 01 01 01 01</p>
+              </div>
+              <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+          </div>
+        </section>
+        <!-- Section: Links  -->
+      
+        <!-- Copyright -->
+        <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+          © 2025 Copyright:
+          <a class="text-reset fw-bold">LabSys.com</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+
+    <!-- Scripts -->
+    <script src="./javascript.js"></script>
+    <script src="./auth.js"></script>
+    <script src="../jquery-3.7.1.min.js"></script>
+    <script src="../bootstrap-5.3.3-dist/js/bootstrap.js"></script>
+    <script>
+        // Fonction pour générer l'ID d'échantillon
+        function generateSampleId() {
+            const prefix = 'ECH';
+            const timestamp = new Date().getTime().toString().slice(-6);
+            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            return `${prefix}${timestamp}${random}`;
+        }
+
+        // Définir l'ID d'échantillon au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('sampleId').value = generateSampleId();
+            document.querySelector('#collectionDate').valueAsDate = new Date();
+        });
+
+        // Gestion de la soumission du formulaire
+        document.getElementById('sampleForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const resultDiv = document.getElementById('formResult');
+            
+            fetch('enregistrer_echantillon.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                resultDiv.style.display = 'block';
+                
+                if (data.success) {
+                    resultDiv.className = 'alert alert-success';
+                    resultDiv.innerHTML = '<i class="fas fa-check-circle"></i> ' + data.message;
+                    
+                    // Réinitialiser le formulaire
+                    this.reset();
+                    document.getElementById('sampleId').value = generateSampleId();
+                    document.querySelector('#collectionDate').valueAsDate = new Date();
+                } else {
+                    resultDiv.className = 'alert alert-danger';
+                    resultDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + data.message;
+                }
+            })
+            .catch(error => {
+                resultDiv.style.display = 'block';
+                resultDiv.className = 'alert alert-danger';
+                resultDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> Erreur de connexion au serveur';
+                console.error('Erreur:', error);
+            });
+        });
+
+        // Script pour l'animation au défilement
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+            
+            // IntersectionObserver pour gérer l'animation au défilement
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-active');  // Ajoute la classe pour lancer l'animation
+                    }
+                });
+            }, {
+                threshold: 0.1  // Se déclenche dès que 10% de l'élément est visible
+            });
+            
+            animateElements.forEach(element => {
+                observer.observe(element);  // Observe chaque élément pour l'animation
+            });
+        });
+
+        // Fonction pour vérifier l'état de connexion
+        function checkLoginStatus() {
+            fetch('check_login.php')
+                .then(response => response.json())
+                .then(data => {
+                    const guestOptions = document.getElementById('guest-options');
+                    const userOptions = document.getElementById('user-options');
+                    
+                    if (data.isLoggedIn) {
+                        // Utilisateur connecté
+                        guestOptions.style.display = 'none';
+                        userOptions.style.display = 'flex';
+                        if (data.username) {
+                            const userInfo = document.getElementById('user-info-container');
+                            userInfo.classList.remove('d-none');
+                            userInfo.innerHTML = `<span class="fw-bold">Bienvenue, ${data.username}</span>`;
+                        }
+                    } else {
+                        // Utilisateur non connecté
+                        guestOptions.style.display = 'flex';
+                        userOptions.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la vérification de connexion:', error);
+                });
+        }
+
+        // Vérifier l'état de connexion au chargement de la page
+        document.addEventListener('DOMContentLoaded', checkLoginStatus);
+    </script>
+</body>
+</html> 

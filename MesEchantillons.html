@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Échantillons</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="../bootstrap-5.3.3-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="bg-primary-subtle text-black p-3" id="nav">
+    <div class="container" id="baground">
+        <div class="LesIcons1 d-flex justify-content-between align-items-center flex-wrap">
+            <div><h1 class="fw-bolder logo-pulse">LabSys</h1></div>
+            <div class="LesIcons2 d-flex gap-3 flex-wrap">
+                <h3 class="fw-bolder animate__animated animate__fadeIn" id="icon1"> <a href="seConnecter.html"><i class="fa-solid fa-user"></i> <span class="d-none d-sm-inline">se connecter</span></a></h3>
+                <h3 class="fw-bolder animate__animated animate__fadeIn" id="icon1"> <a href="inscription.html"><i class="fa-solid fa-user-plus"></i> <span class="d-none d-sm-inline">s'inscrire</span></a></h3>
+                <h3 class="fw-bolder animate__animated animate__fadeIn"><a href=""><i class="fa-solid fa-bell"></i> <span class="d-none d-sm-inline">Mes paramètres</span></a></h3>
+                <div id="user-info-container" class="d-none animate__animated animate__fadeIn"></div>
+            </div>
+        </div>
+        
+        <nav class="navbar navbar-expand-lg p-3">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-semibold" href="index.html"> <i class="fa-solid fa-house"></i> Accueil</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="EnregistrerUnEchantillons.html">
+                                <i class="fas fa-vial"></i> Gestion des Échantillons
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="GenererLeTypeTest.html"> <i class="fas fa-question-circle"></i> Aide et Support</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold active" href="MesEchantillons.html"> <i class="fas fa-flask"></i> Mes Échantillons</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2 fw-semibold" type="search" placeholder="Search" aria-label="Search">
+                        <button id="recherche" class="btn btn-outline-success fw-semibold" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<section>
+  <div class="container mt-5 mb-5">
+    <div class="containerEchan">
+      <h1 class="mb-4"><i class="fas fa-flask text-primary me-2"></i>Mes Échantillons</h1>
+      
+      <!-- Zone d'alerte pour utilisateurs non connectés -->
+      <div id="auth-alert" class="alert alert-warning d-none">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        Vous devez être connecté pour voir vos échantillons.
+        <a href="seConnecter.html" class="btn btn-primary btn-sm ms-3">Se connecter</a>
+      </div>
+      
+      <!-- Filtres et recherche -->
+      <div id="sample-controls" class="card p-3 mb-4 d-none">
+        <div class="row">
+          <div class="col-md-4 mb-2">
+            <label class="form-label fw-bold">Filtrer par statut :</label>
+            <select id="status-filter" class="form-select">
+              <option value="">Tous les statuts</option>
+              <option value="en_attente">En attente</option>
+              <option value="en_cours">En cours d'analyse</option>
+              <option value="termine">Terminé</option>
+            </select>
+          </div>
+          <div class="col-md-4 mb-2">
+            <label class="form-label fw-bold">Filtrer par type :</label>
+            <select id="type-filter" class="form-select">
+              <option value="">Tous les types</option>
+              <option value="sang">Sang</option>
+              <option value="urine">Urine</option>
+              <option value="tissus">Tissus</option>
+              <option value="salive">Salive</option>
+              <option value="LCR">Liquide Céphalo-Rachidien</option>
+              <option value="selles">Selles</option>
+              <option value="autre">Autre</option>
+            </select>
+          </div>
+          <div class="col-md-4 mb-2">
+            <label class="form-label fw-bold">Rechercher :</label>
+            <input type="text" id="search-input" class="form-control" placeholder="ID, patient...">
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-12">
+            <a href="EnregistrerUnEchantillons.html" class="btn btn-success">
+              <i class="fas fa-plus-circle me-2"></i>Nouvel échantillon
+            </a>
+            <button id="refresh-btn" class="btn btn-outline-primary ms-2">
+              <i class="fas fa-sync-alt me-2"></i>Actualiser
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Tableau des échantillons -->
+      <div id="samples-table-container" class="table-responsive d-none">
+        <table class="table table-striped table-hover">
+          <thead class="table-primary">
+            <tr>
+              <th>ID Échantillon</th>
+              <th>Patient</th>
+              <th>Type</th>
+              <th>Tests</th>
+              <th>Date Prélèvement</th>
+              <th>Statut</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="samples-table-body">
+            <!-- Le contenu sera rempli dynamiquement par JavaScript -->
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- Message si aucun échantillon -->
+      <div id="no-samples" class="alert alert-info d-none">
+        <i class="fas fa-info-circle me-2"></i>
+        Vous n'avez aucun échantillon enregistré.
+        <a href="EnregistrerUnEchantillons.html" class="btn btn-primary btn-sm ms-3">Enregistrer un échantillon</a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal de détails de l'échantillon -->
+  <div class="modal fade" id="sampleDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title"><i class="fas fa-flask me-2"></i>Détails de l'échantillon</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="sampleDetailsContent">
+          <!-- Contenu généré dynamiquement -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal de confirmation de suppression -->
+  <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Confirmer la suppression</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Êtes-vous sûr de vouloir supprimer cet échantillon ? Cette action est irréversible.</p>
+          <p><strong>ID Échantillon: </strong><span id="delete-sample-id"></span></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="button" id="confirm-delete-btn" class="btn btn-danger">Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Gardez le header existant et ajoutez cette section après -->
+<section class="container mt-5">
+    <div id="echantillons-container">
+        <h2 class="mb-4"> Acces à vos échantillons</h2>
+        
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-primary">
+                    <tr>
+                        <th>ID Échantillon</th>
+                        <th>Patient</th>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Test</th>
+                        <th>Quantité</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="echantillons-list">
+                    <!-- Les données seront insérées ici -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="text-center text-lg-start bg-body-tertiary text-muted">
+  <!-- Section: Social media -->
+  <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+    <!-- Left -->
+    <div class="me-5 d-none d-lg-block">
+      <span>Merci pour votre visite! </span>
+    </div>
+    <!-- Left -->
+
+    <!-- Right -->
+    <div>
+      <a href="" class="me-4 text-reset">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="" class="me-4 text-reset">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="" class="me-4 text-reset">
+        <i class="fab fa-google"></i>
+      </a>
+      <a href="" class="me-4 text-reset">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="" class="me-4 text-reset">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="" class="me-4 text-reset">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <!-- Right -->
+  </section>
+  <!-- Section: Social media -->
+
+  <!-- Section: Links  -->
+  <section class="">
+    <div class="container text-center text-md-start mt-5">
+      <!-- Grid row -->
+      <div class="row mt-3">
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+          <!-- Content -->
+          <h6 class="text-uppercase fw-bold mb-4">
+            <i class="fas fa-gem me-3"></i>LabSys
+          </h6>
+          <p>
+              LabSys est une solution web complète et sécurisée destinée aux laboratoires d'analyses médicales 
+              facilitant l'accès aux analyses concernés par des échantillons.
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">
+              ACCÈS RAPIDE
+          </h6>
+          <p>
+            <a href="#!" class="text-reset">Espace Patients</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">Espace Professionnels</a>
+          </p>
+          
+          <p>
+            <a href="#!" class="text-reset">Recrutement</a>
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">
+              Services
+          </h6>
+          <p>
+            <a href="#!" class="text-reset">Paramétres</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">S'inscrire </a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">Se connecter</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">Aide </a>
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+          <p><i class="fas fa-home me-3"></i> TUNIS, NY 10012, </p>
+          <p>
+            <i class="fas fa-envelope me-3"></i>
+            infoBiologie@Labsys.com
+          </p>
+          <p><i class="fas fa-phone me-3"></i> + 01 01 01 01 01</p>
+          <p><i class="fas fa-print me-3"></i> + 01 01 01 01 01</p>
+        </div>
+        <!-- Grid column -->
+      </div>
+      <!-- Grid row -->
+    </div>
+  </section>
+  <!-- Section: Links  -->
+
+  <!-- Copyright -->
+  <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+    © 2025 Copyright:
+    <a class="text-reset fw-bold" ">LabSys.com</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+<!-- Footer -->
+<script src="./javascript.js"></script>
+<script src="./auth.js"></script>
+<script src="../jquery-3.7.1.min.js" ></script>
+<script src="../bootstrap-5.3.3-dist/js/bootstrap.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    loadEchantillons();
+});
+
+function loadEchantillons() {
+    fetch('get_echantillons.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const tbody = document.getElementById('echantillons-list');
+                tbody.innerHTML = '';
+                
+                if (data.data.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="8" class="text-center">
+                                Aucun échantillon trouvé
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                data.data.forEach(echantillon => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${echantillon.id_echantillon}</td>
+                        <td>${echantillon.nom_patient}</td>
+                        <td>${echantillon.date_enregistrement}</td>
+                        <td>${echantillon.echantillon_type}</td>
+                        <td>${echantillon.test_type}</td>
+                        <td>${echantillon.quantite} mL</td>
+                        <td>
+                            <span class="badge ${getBadgeClass(echantillon.statut)}">
+                                ${echantillon.statut}
+                            </span>
+                        </td>
+                        <td>
+                            <button onclick="supprimerEchantillon(${echantillon.id})" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i> Supprimer
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+        })
+        .catch(error => console.error('Erreur:', error));
+}
+
+function getBadgeClass(statut) {
+    switch(statut) {
+        case 'en_attente': return 'bg-warning';
+        case 'en_cours': return 'bg-info';
+        case 'termine': return 'bg-success';
+        case 'rejete': return 'bg-danger';
+        default: return 'bg-secondary';
+    }
+}
+
+function supprimerEchantillon(id) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cet échantillon ?')) {
+        const formData = new FormData();
+        formData.append('id', id);
+
+        fetch('supprimer_echantillon.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                loadEchantillons();
+                alert('Échantillon supprimé avec succès');
+            } else {
+                alert('Erreur lors de la suppression: ' + data.message);
+            }
+        })
+        .catch(error => console.error('Erreur:', error));
+    }
+}
+</script>
+</body>
+</html> 

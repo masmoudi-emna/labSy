@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulaire minimal</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        form { border: 1px solid #ccc; padding: 20px; max-width: 500px; margin: 0 auto; }
+        div { margin-bottom: 10px; }
+        label { display: block; margin-bottom: 5px; }
+        input, select { width: 100%; padding: 8px; box-sizing: border-box; }
+        button { background: blue; color: white; padding: 10px; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <form action="minimal_insert.php" method="POST">
+        <h1>Formulaire minimal</h1>
+        
+        <input type="hidden" name="userId" value="1">
+        
+        <div>
+            <label>ID Échantillon:</label>
+            <input type="text" name="sampleId" value="ECHANTILLON_TEST" required>
+        </div>
+        
+        <div>
+            <label>Nom patient:</label>
+            <input type="text" name="patientName" value="Patient Test" required>
+        </div>
+        
+        <div>
+            <label>Type:</label>
+            <select name="sampleType" required>
+                <option value="sang">Sang</option>
+                <option value="urine">Urine</option>
+            </select>
+        </div>
+        
+        <div>
+            <label>Date:</label>
+            <input type="date" name="collectionDate" required>
+        </div>
+        
+        <div>
+            <label>Localisation:</label>
+            <input type="text" name="localisation" value="Laboratoire" required>
+        </div>
+        
+        <div>
+            <label>Quantité:</label>
+            <input type="number" name="quantite" value="1.00" step="0.01" required>
+        </div>
+        
+        <div>
+            <label>Statut:</label>
+            <select name="sampleStatus" required>
+                <option value="en_attente">En attente</option>
+            </select>
+        </div>
+        
+        <div>
+            <button type="submit">Enregistrer</button>
+        </div>
+    </form>
+
+    <script>
+        // Définir la date à aujourd'hui
+        document.querySelector('input[name="collectionDate"]').valueAsDate = new Date();
+    </script>
+</body>
+</html> 
