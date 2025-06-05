@@ -1,0 +1,57 @@
+CREATE TABLE `inscription` (
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `nom` VARCHAR(255) NOT NULL,
+  `prenom` VARCHAR(255) NOT NULL,
+  `email` VARCHAR(255) UNIQUE NOT NULL,
+  `motDePass1` VARCHAR(255) NOT NULL
+);
+CREATE TABLE `enregistrer_echantillon` (
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `nom_echantillon` VARCHAR(255) NOT NULL,
+  `nom_patient` VARCHAR(255) NOT NULL,
+  `date_enregistrement` DATE NOT NULL,
+  `type_echantillon` VARCHAR(50) NOT NULL,
+  `tests` VARCHAR(255) NOT NULL,
+  `quantite` DECIMAL(10,2) NOT NULL,
+  `statut` VARCHAR(50) NOT NULL DEFAULT 'en_attente',
+  `user_id` INT NOT NULL,
+  `date_creation` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `localisation` VARCHAR(255),
+  FOREIGN KEY (`user_id`) REFERENCES `inscription`(`id`)
+);
+
+CREATE TABLE `echantillons` (
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `id_echantillon` VARCHAR(255) NOT NULL,
+  `nom_patient` VARCHAR(255) NOT NULL,
+  `date_enregistrement` DATE NOT NULL,
+  `echantillon_type` VARCHAR(50) NOT NULL,
+  `test_type` VARCHAR(255) NOT NULL,
+  `quantite` DECIMAL(10,2) NOT NULL,
+  `statut` VARCHAR(50) NOT NULL DEFAULT 'en_attente',
+  `user_id` INT NOT NULL,
+  `date_creation` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (`user_id`) REFERENCES `inscription`(`id`)
+);
+exemple d'insertion :
+INSERT INTO `enregistrer_echantillon` (
+  nom_echantillon,
+  nom_patient,
+  date_enregistrement,
+  type_echantillon,
+  tests,
+  quantite,
+  statut,
+  user_id,
+  localisation
+) VALUES (
+  'ECH5868992352',
+  'asma',
+  '2025-03-28',
+  'salive',
+  'ucbc',
+  12.00,
+  'en_attente',
+  1,
+  'Réfrigérateur A3'
+);
